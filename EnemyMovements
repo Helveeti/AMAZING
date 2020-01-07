@@ -1,0 +1,29 @@
+public class EnemyMovement : MonoBehaviour
+{
+    Transform player;
+    UnityEngine.AI.NavMeshAgent nav;
+    //public KeyCode immematerial;
+
+    void Awake()
+    {
+        player = GameObject.FindGameObjectWithTag("Player").transform;
+        nav = GetComponent<UnityEngine.AI.NavMeshAgent>();
+    }
+
+    private void Update()
+    {
+        nav.SetDestination(player.position);
+
+        //GetComponent<Rigidbody>;
+    }
+
+
+    void OnTriggerEnter(Collider other)
+    {
+
+        if (other.gameObject.CompareTag("Enemy"))
+        {
+            nav.enabled = false;
+        }
+    }
+}

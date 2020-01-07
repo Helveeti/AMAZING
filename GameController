@@ -1,0 +1,67 @@
+public class GameController : MonoBehaviour
+{
+
+    public Text itemText;
+    public Text winText;
+    public Text quitGame;
+    public Text doorText;
+    public Text gameOver;
+    public float time = 5;
+
+    private int count;
+
+    private MazeConstructor generator;
+
+    void Start()
+    {
+        generator = GetComponent<MazeConstructor>();
+
+        generator.GenerateNewMaze(13, 15);
+
+        winText.text = "";
+        quitGame.text = "";
+        itemText.text = "";
+        doorText.text = "";
+        gameOver.text = "";
+        count = 0;
+
+        Update();
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Enemy"))
+        {
+            gameOver.text = "Game over!";
+        }
+        else if (other.gameObject.CompareTag("PickUp"))
+        {
+            other.gameObject.SetActive(false);
+
+            itemText.text = "Key obtained.";
+            count += 1;
+        }
+        else if (count == 1)
+        {
+            other.gameObject.CompareTag("DoorUp");
+            other.gameObject.SetActive(true);
+            winText.text = "You won!";
+            quitGame.text = "Quit game by pressing 'esc' \nOr try again by pressing 'space'";
+        }
+        else if (count == 0)
+        {
+            other.gameObject.CompareTag("DoorUp");
+            other.gameObject.SetActive(true);
+            doorText.text = "A key required.";
+            Destroy(doorText, time);
+        }
+    }
+
+    private void Update()
+    {
+        if (Input.GetKey("escape"))
+        {
+            Application.Quit();
+        }
+    }
+}

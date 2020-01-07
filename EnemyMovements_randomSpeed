@@ -1,0 +1,44 @@
+Transform player;
+    UnityEngine.AI.NavMeshAgent nav;
+    float m_speed;
+    Timer aTimer;
+
+    void Awake()
+    {
+        player = GameObject.FindGameObjectWithTag("Player").transform;
+        nav = GetComponent<UnityEngine.AI.NavMeshAgent>();
+        m_speed = 1;
+        aTimer = new Timer();
+        aTimer.Elapsed += new ElapsedEventHandler(OnTimedEvent);
+        aTimer.Interval = 2000;
+        aTimer.Enabled = true;
+    }
+
+    private void Update()
+    {
+        if (nav.enabled == true)
+        {
+            nav.SetDestination(player.position);
+        }
+        else {
+            Debug.Log("");
+        }
+    }
+
+    private void OnTimedEvent(object source, ElapsedEventArgs e)
+    {
+        nav.velocity = transform.forward * m_speed;
+        Debug.Log(nav.velocity);
+
+        m_speed = Random.Range(1, 5) * Time.deltaTime;
+    }
+
+
+    void OnTriggerEnter(Collider other)
+    {
+
+        if (other.gameObject.CompareTag("Player"))
+        {
+            nav.enabled = false;
+        }
+    }

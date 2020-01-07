@@ -1,0 +1,14 @@
+public class Move : MonoBehaviour
+{
+    public int currentRandomPoint;
+    private NavMeshAgent navMesh;
+
+    void Start()
+    {
+        //currentRandomPoint = Random.Range(0, randomPoints.Length);
+        navMesh = transform.GetComponent<NavMeshAgent>();
+
+        //playerDist = Vector3.Distance(Player.transform.position, transform.position);
+        //randomPointDist = Vector3.Distance(randomPoints[currentRandomPoint].transform.position, transform.position);
+    }
+}
